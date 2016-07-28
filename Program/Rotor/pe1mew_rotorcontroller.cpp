@@ -150,6 +150,9 @@ void PE1MEW_RotorController::RunSetBrightness(void)
 			Display.setBrightness(_Brightness);
 			_RunState = NORMAL;
 		break;
+		
+		default:
+			break;
 	}
 	Display.showLedBrightness(_Brightness);
 }
@@ -192,6 +195,9 @@ void PE1MEW_RotorController::RunTestCalibrate(void)
 		
 		case TCSFINISH:
 			_RunState = NORMAL;
+			break;
+			
+		default:
 			break;
 	}
 }
@@ -312,9 +318,12 @@ void PE1MEW_RotorController::TCS1Process(void)
 	}	
 }
 
-// Input a value 0 to 255 to get a color value.
-// The colours are a transition r - g - b - back to r.
-// copied form Aruino neopixel driver code
+/*
+Input a value 0 to 255 to get a color value.
+The colours are a transition r - g - b - back to r.
+copied form Aruino neopixel driver code
+*/
+
 uint32_t PE1MEW_RotorController::TCS1Rainbow(byte WheelPos) 
 {
 	WheelPos = 255 - WheelPos;
@@ -364,7 +373,6 @@ void PE1MEW_RotorController::TCS2Process(void)
 			break;
 		
 		default:
-
 			break;
 	}
 }
@@ -408,7 +416,6 @@ void PE1MEW_RotorController::TCS3Process(void)
 			break;
 		
 		default:
-
 			break;
 	}
 }
@@ -449,7 +456,6 @@ void PE1MEW_RotorController::TCS4Process(void)
 		break;
 	
 	default:
-
 		break;
 	}
 }
@@ -595,6 +601,9 @@ void PE1MEW_RotorController::RunSynchronize(void)
 		case SYNCFINISH:
 			Steering.initialize(_NextDirection);
 			_RunState = NORMAL;
+			break;
+		
+		default:
 			break;
 	}
 }

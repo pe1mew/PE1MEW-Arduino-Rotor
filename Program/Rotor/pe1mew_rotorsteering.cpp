@@ -148,7 +148,11 @@ void PE1MEW_RotorSteering::buttonTest(void)
 					_ButtonSpeedHoldCounter = 0;
 				}
 				break;
+				
+			default:
+				break;
 		}
+		
 	}
 	else
 	{
@@ -193,7 +197,6 @@ void PE1MEW_RotorSteering::ProcessButtons(uint8_t inputVariable)
 			break;
 		
 		default:
-			
 			break;
 	}
 	

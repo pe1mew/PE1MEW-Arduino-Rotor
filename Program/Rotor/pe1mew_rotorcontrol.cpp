@@ -92,7 +92,6 @@ void PE1MEW_RotorControl::Process(void)
         break;
 
     default:
-
         break;
     }
     _CurrentState = _NextState;
