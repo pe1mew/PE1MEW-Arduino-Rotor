@@ -17,7 +17,8 @@
  /// \brief Memory class for PE1MEW Arduino Rotor Controller
  /// \date 20-7-2016
  /// \author Remko Welling (PE1MEW)
- /// \version 1.0
+ /// \version 1.0	Initial version
+ /// \version 1.1	Corrected readRunTimeCounter() and writeRunTimeCounter() writing to big sizes.
  
  
 /*
@@ -26,9 +27,9 @@
 	1	_memBrightness
 	2	_memDirection MSB
 	3	_memDirection LSB
-	4	_memRunTimeCounter MSB
-	5	_memRunTimeCounter
-	6	_memRunTimeCounter
+	4	..
+	5	..
+	6	_memRunTimeCounter MSB
 	7	_memRunTimeCounter LSB
 
 */
@@ -63,8 +64,8 @@ uint16_t PE1MEW_MemoryControl::readRunTimeCounter(void)
 	uint16_t returnValue = 0;
 	returnValue = (uint16_t)EEPROM.read(7);
 	returnValue += (uint16_t)(EEPROM.read(6) << 8);
-	returnValue += (uint16_t)(EEPROM.read(5) << 16);
-	returnValue += (uint16_t)(EEPROM.read(4) << 24);
+	//returnValue += (uint16_t)(EEPROM.read(5) << 16);
+	//returnValue += (uint16_t)(EEPROM.read(4) << 24);
 	return returnValue;
 }
 
@@ -72,8 +73,8 @@ void PE1MEW_MemoryControl::writeRunTimeCounter(uint16_t counterValue)
 {
 	EEPROM.update(7, (uint8_t)counterValue);
 	EEPROM.update(6, (uint8_t)(counterValue >> 8));
-	EEPROM.update(5, (uint8_t)(counterValue >> 16));
-	EEPROM.update(4, (uint8_t)(counterValue >> 24));
+	//EEPROM.update(5, (uint8_t)(counterValue >> 16));
+	//EEPROM.update(4, (uint8_t)(counterValue >> 24));
 }
 
 uint8_t PE1MEW_MemoryControl::readBrightness(void)
@@ -113,7 +114,7 @@ bool PE1MEW_MemoryControl::memoryTest(void)
 	_memRunTimeCounter = readRunTimeCounter();	///< get current value and write to temporary memory
 	
 	writeRunTimeCounter(0xFFFF);				///< write all bits of memory
-	if(readRunTimeCounter() != 0xFFFF)			///< Verify if all bits have been writen
+	if(readRunTimeCounter() != 0xFFFF)			///< Verify if all bits have been written
 	{
 		returnValue = false;								///< set result successful
 	}

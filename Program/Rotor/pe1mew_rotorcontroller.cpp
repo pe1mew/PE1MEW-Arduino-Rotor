@@ -18,6 +18,7 @@
  /// \date 20-7-2016
  /// \author Remko Welling (PE1MEW)
  /// \version 1.0
+ /// \version 1.1	Modified turn direction in initialization phase of calibration process
 
  #include "pe1mew_rotorcontroller.h"
 
@@ -467,7 +468,7 @@ void PE1MEW_RotorController::TCS5Process(void)
 	{
 		case BUTTON_1:
 			_FunctionMemory = true;
-			Rotor.setRotorTurn(CCW);
+			Rotor.setRotorTurn(CW);
 			Display.showLedColor(7,RED);
 		break;
 		
