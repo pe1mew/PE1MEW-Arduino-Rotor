@@ -18,6 +18,7 @@
  /// \date 20-7-2016
  /// \author Remko Welling (PE1MEW)
  /// \version 1.0
+ /// \version 1.1	Optimized code, removed unnecessary usage of floats, corrected evaluation of current direction in processIDLEState().
 
  #include "pe1mew_rotorcontrol.h"
 
@@ -47,16 +48,16 @@ void PE1MEW_RotorControl::Initialize(void)
 	digitalWrite(REL1_PIN, RELAY_REST);
 	digitalWrite(REL2_PIN, RELAY_REST);
 	
-	_degreesPerTick = TOTALDEGREES / _RunTime;
+	_degreesPerTick = TOTALDEGREES / static_cast<float>(_RunTime);
 }
 
-void PE1MEW_RotorControl::Initialize(uint16_t angle, float runtime)
+void PE1MEW_RotorControl::Initialize(uint16_t angle, uint16_t runtime)
 {
-	_CurrentDirection = (float)angle;
+	_CurrentDirection = static_cast<float>(angle);
 	_NextDirection = angle;
 	_RunTime = runtime;
 	//debugPrint(runtime);
-	_degreesPerTick = TOTALDEGREES / _RunTime;
+	_degreesPerTick = TOTALDEGREES / static_cast<float>(_RunTime);
 }
 
 	
@@ -99,11 +100,16 @@ void PE1MEW_RotorControl::Process(void)
 
 void PE1MEW_RotorControl::processIDLEState(void)
 {
-    if (_NextDirection > _CurrentDirection)
+    if(_RotatingState == true)
+    {
+	    setRotorStop();
+    }
+	
+	if (_NextDirection > ceil(_CurrentDirection))			/// Round to first int lower than current value of float
     {
         _NextState = CW;
     }
-    else if (_NextDirection < _CurrentDirection)
+    else if (_NextDirection < floor(_CurrentDirection))		/// Round to first int higher than current value of float
     {
         _NextState = CCW;
     }
@@ -120,13 +126,14 @@ void PE1MEW_RotorControl::processCWState(void)
         setRotorTurn(CW);
     }
 	
-	_CurrentDirection += _degreesPerTick;	// Increment
-
-    if (_CurrentDirection > _NextDirection)
+	if (_CurrentDirection > _NextDirection)
     {
-        setRotorStop();
         _NextState = IDLE;
     }
+	else
+	{
+		_CurrentDirection += _degreesPerTick;	// Increment
+	}
 }
 
 void PE1MEW_RotorControl::processCCWState(void)
@@ -136,13 +143,14 @@ void PE1MEW_RotorControl::processCCWState(void)
         setRotorTurn(CCW);
     }
 
-	_CurrentDirection -= _degreesPerTick;	// decrement
-
-    if (_CurrentDirection < _NextDirection)
+	if (_CurrentDirection < _NextDirection)
     {
-        setRotorStop();
         _NextState = IDLE;
     }
+	else
+	{
+		_CurrentDirection -= _degreesPerTick;	// decrement
+	}
 }
 
 void PE1MEW_RotorControl::setRotorTurn(eState direction)
@@ -195,7 +203,7 @@ void PE1MEW_RotorControl::calibrateRunTimeCounter(void)
 	_RunTimeCounter = 0;
 }
 
-float PE1MEW_RotorControl::getRunTimeCounter(void)
+uint16_t PE1MEW_RotorControl::getRunTimeCounter(void)
 {
 	_CalibratingMode = false;
 	return _RunTimeCounter;

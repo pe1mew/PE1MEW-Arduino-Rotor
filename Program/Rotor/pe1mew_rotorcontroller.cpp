@@ -133,10 +133,10 @@ void PE1MEW_RotorController::RunSetBrightness(void)
 	switch(_SetBrightnessState)
 	{
 		case SBINIT:
-			Display.showLedClear();
-			Display.showLedColor(0,0x00ffffff);
-			_Brightness = 200;
-			_SetBrightnessState = SB;
+			Display.showLedClear();					/// Clear all led information
+			Display.showLedColor(0,0x00ffffff);		/// Set color of the led to white.
+			_Brightness = 200;						/// Set brightness starting point at 200 of 255
+			_SetBrightnessState = SB;				/// Set state machine of brightness calibration process to next state (SB)
 			break;
 		
 		case SB:
@@ -144,11 +144,8 @@ void PE1MEW_RotorController::RunSetBrightness(void)
 			break;
 		
 		case SBFINISH:
-			// Write brightness to memory
-			Memory.writeBrightness(_Brightness);
-			
-			// Write brightness to display to make new settings active in following RUN mode
-			Display.setBrightness(_Brightness);
+			Memory.writeBrightness(_Brightness);	/// Write brightness to memory
+			Display.setBrightness(_Brightness);		/// Write brightness to display to make new settings active in following RUN mode
 			_RunState = NORMAL;
 		break;
 		

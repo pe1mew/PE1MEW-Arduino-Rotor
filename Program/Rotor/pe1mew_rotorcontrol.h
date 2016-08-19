@@ -74,7 +74,7 @@ public:
 	/// Also this function is used to configure the class with new runtime settings.
 	/// \value direction of the antenna. This can be the last known direction stored in memory.
 	/// \value the time it takes to turn the antenna 360 degrees.
-	void Initialize(uint16_t angle, float runtime);
+	void Initialize(uint16_t angle, uint16_t runtime);
 
 	/// \brief function to start a timer to measure the time it takes to turn the antenna 360 degrees
 	/// This function is used by the test and calibration mode.
@@ -82,7 +82,7 @@ public:
 
 	/// \brief get the result of the timer used to calibrate the rotor
 	/// \return time it takes to turn the antenna 360 degrees round.
-	float getRunTimeCounter(void);
+	uint16_t getRunTimeCounter(void);
 	
 	/// \brief Test function to show rainbow on leds
 	void displayTest(void);
@@ -100,8 +100,8 @@ private:
     uint8_t  _NextState;			///< Next state the state machine will have
     float	 _CurrentDirection;		///< Current or actual direction of rotor
     uint16_t _NextDirection;        ///< Value with direction where rotor shall rotate to
-	float    _RunTime;				///< Value to store time required to rotate from 0 to 360 degrees.
-	float	 _RunTimeCounter;		///< Value for counting time while calibrating
+	uint16_t _RunTime;				///< Value to store time required to rotate from 0 to 360 degrees.
+	uint16_t _RunTimeCounter;		///< Value for counting time while calibrating
 	bool	 _CalibratingMode;		///< Value to indicate calibration process is running
 	float    _degreesPerTick;		///< Degrees that the antenna is turned during the time between two sys ticks.
     bool     _RotatingState;		///< Indicator to tell if the rotor is running (true) or not (false)
