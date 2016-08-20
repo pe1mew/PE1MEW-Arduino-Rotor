@@ -13,11 +13,12 @@
   PURPOSE.
   --------------------------------------------------------------------*/
 
- /// \file pe1mew_displaycontrol.h
- /// \brief Display class for PE1MEW Arduino Rotor Controller
- /// \date 20-7-2016
- /// \author Remko Welling (PE1MEW)
- /// \version 1.0
+/// \file pe1mew_displaycontrol.h
+/// \brief Display class for PE1MEW Arduino Rotor Controller
+/// \date 20-7-2016
+/// \author Remko Welling (PE1MEW)
+/// \version 1.0
+/// \version 1.1	Added define for include of Neopixel library to select right include for using Atmel Studio of Arduino IDE. 
 
 // \todo move static variables within scope of class?
 
@@ -25,7 +26,12 @@
 #define PE1MEW_ROTORNEOPIXELDISPLAY_H
 
 #include <stdint.h>
-#include "../AdaFruit/Adafruit_NeoPixel.h"
+
+#if defined(ARDUINO)				// test for usage of Arduino IDE
+#	include "Adafruit_NeoPixel.h"	// Use Arduino compatible include
+#else
+#	include "../AdaFruit/Adafruit_NeoPixel.h"
+#endif
 
 /// \brief enum for predefined colors
 enum eColor { RED = 0x00FF0000, 	///< Red
