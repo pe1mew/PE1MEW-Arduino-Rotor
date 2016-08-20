@@ -24,7 +24,7 @@
 
 #include <EEPROM.h>
 
-/// \brief comment on first programming
+/// \par comment on first programming
 ///		As the EEProm memory is in undefined state the first time this code is programmed in to the microprocessor
 ///		The EEProm memory has to be formatted with default values.
 ///		The process is to program the microprocessor 2 times:
@@ -36,7 +36,8 @@
 //#define FIRSTSTART
 
 
-/// \class Rotor steering class
+/// \class PE1MEW_MemoryControl
+/// \brief Rotor steering class
 class PE1MEW_MemoryControl
 {
 public:
@@ -48,7 +49,7 @@ public:
 	uint16_t readRunTimeCounter(void);
 	
 	/// \brief write TimerCounter calibration value to EEProm
-	/// \value timer calibration value
+	/// \param[in] counterValue timer calibration value
 	void writeRunTimeCounter(uint16_t counterValue);
 	
 	/// \brief read brightness setting from EEProm
@@ -56,7 +57,7 @@ public:
 	uint8_t readBrightness(void);
 	
 	/// \brief write brightness setting to EEProm
-	/// \value brightness value (0-255)
+	/// \param brightness value (0-255)
 	void writeBrightness(uint8_t brightness);
 
 	/// \brief read last direction before power off from EEProm
@@ -64,7 +65,7 @@ public:
 	uint16_t readDirection(void);
 	
 	/// \brief write direction to EEProm
-	/// \value direction in degrees
+	/// \param direction in degrees
 	void writeDirection(uint16_t direction);
 	
 	/// \brief memory test function

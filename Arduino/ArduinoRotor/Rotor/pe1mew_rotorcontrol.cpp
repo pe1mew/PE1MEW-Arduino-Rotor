@@ -19,6 +19,7 @@
  /// \author Remko Welling (PE1MEW)
  /// \version 1.0
  /// \version 1.1	Optimized code, removed unnecessary usage of floats, corrected evaluation of current direction in processIDLEState().
+ /// \version 1.2	Limited the _RunTimeCounter value to the maximum of 0xFFFF. this equals (65536 * 0,01 sec) / 60 seconds = 10,92 minutes to turn 360 degrees.
 
  #include "pe1mew_rotorcontrol.h"
 
@@ -213,7 +214,10 @@ void PE1MEW_RotorControl::ProcessCalibration(void)
 {
 	if(_CalibratingMode)
 	{
-		_RunTimeCounter++;
+		if (_RunTimeCounter < 0xFFFF )	// test if _RunTimeCounter reached the maximum value of 0xFFFF. If not: do nothing.
+		{
+			_RunTimeCounter++;			// _RunTimeCounter is smaller than 0xFFFF, increment _RunTimeCounter.
+		}
 	}
 }
 

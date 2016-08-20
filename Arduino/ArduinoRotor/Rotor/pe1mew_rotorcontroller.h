@@ -57,7 +57,8 @@ enum eSetBrightState { SBINIT = 0,	///< Make preparations for setting brightness
 					   SB,			///< Set brightness
 					   SBFINISH };	///< Save set brightness and exit to normal operation
 
-/// \class Main controller class.
+/// \class PE1MEW_RotorController
+/// \brief Main controller class.
 /// All functions are controlled from this class.
 class PE1MEW_RotorController
 {

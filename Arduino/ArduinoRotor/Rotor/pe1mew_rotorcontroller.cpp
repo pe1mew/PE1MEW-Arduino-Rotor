@@ -43,35 +43,35 @@ PE1MEW_RotorController::PE1MEW_RotorController():
 
 void PE1MEW_RotorController::Initialize(void)
 {
-	// Read variables from EEprom
+	/// Read variables from EEprom
 	_RunTimeCounter = Memory.readRunTimeCounter();
 	_CurrentDirection = Memory.readDirection();
 	_Brightness = Memory.readBrightness();
 	
-	// Set Rotor
+	/// Set Rotor
 	Rotor.Initialize(_CurrentDirection, (float)_RunTimeCounter);
 	Steering.initialize(_CurrentDirection);
 	
-	// set Display
+	/// set Display
 	Display.setBrightness(_Brightness);
 
-	// Read startup-state from buttons	
+	/// Read startup-state from buttons to select the initial mode of operation
 	switch (Steering.getButtons())
 	{
-		case BUTTON_1:
-			_RunState = SYNCHRONIZE;
+		case BUTTON_1:					/// Button 1 (CCW) is pressed:
+			_RunState = SYNCHRONIZE;	/// Synchronize mode: Turn rotor 36 degrees CW an CCW to synchronize bot motor unit and display.
 			break;
 		
-		case BUTTON_2:
-			_RunState = SET_INTENSITY;
+		case BUTTON_2:					/// Button 2  (CW) is pressed:
+			_RunState = SET_INTENSITY;	/// Set the intensity of the leds and store in to memory
 			break;
 		
-		case BUTTON_BOTH:
-			_RunState = TEST_CALIBRATE;
+		case BUTTON_BOTH:				/// Both buttons are pressed:
+			_RunState = TEST_CALIBRATE;	/// Test and Calibration mode.
 			break;
 
-		default:
-			_RunState = NORMAL;
+		default:						/// No buttons are pressed:
+			_RunState = NORMAL;			/// Start normal operation
 			break;
 	}
 }
@@ -509,10 +509,10 @@ void PE1MEW_RotorController::TCS6Process(void)
 		case BUTTON_1:
 			if (!_FunctionMemory)
 			{
-				Rotor.calibrateRunTimeCounter();
-				Rotor.Initialize(360, 36000.0);
-				Rotor.setDirection(0);					// Set rotor with target direction 0
-				Display.setRotorRunning(true);
+				Rotor.calibrateRunTimeCounter();		// set rotorcontrol to calibration mode.
+				Rotor.Initialize(360, 0xFFFF);			// Set direction 360 degrees and rotation time of 10,92 minutes
+				Rotor.setDirection(0);					// Set rotor with target direction 0 degrees
+				Display.setRotorRunning(true);			// tell displaycontrol that rotor is running to indicate read and blue leds.
 			}
 			_FunctionMemory = true;
 			break;
@@ -521,19 +521,16 @@ void PE1MEW_RotorController::TCS6Process(void)
 			if (_FunctionMemory)
 			{
 				_RunTimeCounter = (uint16_t)Rotor.getRunTimeCounter();
-				Display.setRotorRunning(false);
+				Display.setRotorRunning(false);			// tell displaycontrol that rotor is not running to indicate a green led.
 			}
 			break;
 		
 		case BUTTON_BOTH:
 			if(_FunctionMemory)
 			{
-				// write to memory
-				Memory.writeRunTimeCounter(_RunTimeCounter);
-				// Configure Rotor
-				Rotor.Initialize(1, _RunTimeCounter);
+				Memory.writeRunTimeCounter(_RunTimeCounter);	// write to memory
+				Rotor.Initialize(1, _RunTimeCounter);			// initialize rotorcontrol with new RunTimeCounter value.
 				Steering.initialize(0);
-				//Rotor.setRotorStop();
 				
 				Display.showLedClear();
 				Display.showLedColor(0,BLUE);	// Indicate testing process
@@ -669,17 +666,21 @@ void PE1MEW_RotorController::SyncStep2(void)
 	switch (Steering.getButtons())
 	{
 		case BUTTON_NONE:
-		_FunctionMemory = true;
-		_NextDirection = 360;								// Set CCW to 0
-		
-		break;
+			_FunctionMemory = true;
+			_NextDirection = 360;							// Set CCW to 0
+			break;
+
+		case BUTTON_BOTH:
+			_SynchronizationState=SYNCFINISH;
+			_FunctionMemory = false;
+			break;
 		
 		default:
-		if(_FunctionMemory && !Rotor.getIsRotorRunning())
-		{
-			_SynchronizationState++;
-			_FunctionMemory = false;
-		}
-		break;
+			if(_FunctionMemory && !Rotor.getIsRotorRunning())
+			{
+				_SynchronizationState++;
+				_FunctionMemory = false;
+			}
+			break;
 	}
 }

@@ -55,7 +55,8 @@ enum eSetButtonSpeedState { STEP1 = 0,	///< Speed step 1, slowest setting speed
 							STEP3,		///< Speed step 1
 							STEP4 };	///< Speed step 1, fastest setting speed
 
-/// \class Rotor steering class
+/// \class PE1MEW_RotorSteering
+/// \brief Rotor steering class
 class PE1MEW_RotorSteering
 {
 public:
@@ -75,7 +76,7 @@ public:
 	/// \brief helper function to initialize variables en calculate values for these variables in the constructor of the classes.
 	/// Overloaded function form the private function Initialize()
 	/// This function is used to initialize the steering control with settings from memory
-	/// \value direction in degrees.
+	/// \param direction in degrees.
 	void initialize(uint16_t direction);
 			
 	/// \brief at sys tick executed function for housekeeping of the Rotor control.
@@ -103,8 +104,8 @@ private:
 	void	ProcessButtons(uint8_t inputVariable);
 	
 	/// \brief Verify angle to fit between 0 and 360 degrees.
-	/// \value direction in degrees
-	/// \return checked direction in degrees.
+	/// \param degrees direction in degrees
+	/// \return degrees checked direction in degrees.
 	int16_t checkDegreeResult(int16_t degrees);
 
 };

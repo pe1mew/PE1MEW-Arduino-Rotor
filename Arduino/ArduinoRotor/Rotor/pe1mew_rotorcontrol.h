@@ -40,7 +40,8 @@ enum eState { IDLE = 0, 	///< motor is not running, current Direction == next Di
 			  CW, 			///< motor is running clock wise (west-bound)
 			  CCW };		///< motor is running counter clock wise (east-bound)
 
-/// \class Rotor control class.
+/// \class PE1MEW_RotorControl
+/// \brief Rotor control class.
 class PE1MEW_RotorControl
 {
 public:
@@ -56,7 +57,7 @@ public:
 	/// - During calibration process
 	/// \todo verify usage
 	/// \todo reconsider naming of function.
-	/// \value direction in the degrees (0-360)
+	/// \param direction in the degrees (0-360)
 	/// \return direction set
 	uint16_t setDirection(uint16_t direction);
 	
@@ -72,8 +73,8 @@ public:
 	/// Overloaded function form the private function Initialize()
 	/// This function is used to initialize the rotor control with settings from memory
 	/// Also this function is used to configure the class with new runtime settings.
-	/// \value direction of the antenna. This can be the last known direction stored in memory.
-	/// \value the time it takes to turn the antenna 360 degrees.
+	/// \param[in] angle direction of the antenna. This can be the last known direction stored in memory.
+	/// \param[in] runtime The time it takes to turn the antenna 360 degrees.
 	void Initialize(uint16_t angle, uint16_t runtime);
 
 	/// \brief function to start a timer to measure the time it takes to turn the antenna 360 degrees
@@ -88,7 +89,7 @@ public:
 	void displayTest(void);
 
 	/// \brief used by processCCWState() and processCWState() to execute required actions
-	/// \value direction to rotate
+	/// \param direction to rotate
 	void setRotorTurn(eState direction);
 	
 	/// \brief used by processIDLEState() to stop the rotor turning

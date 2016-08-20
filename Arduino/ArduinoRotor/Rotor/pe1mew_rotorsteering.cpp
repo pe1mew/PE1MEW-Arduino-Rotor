@@ -18,6 +18,7 @@
  /// \date 20-7-2016
  /// \author Remko Welling (PE1MEW)
  /// \version 1.0
+ /// \version 1.1 changed buttons CW and CCW
 
 #include "pe1mew_rotorsteering.h"
 
@@ -188,11 +189,11 @@ void PE1MEW_RotorSteering::ProcessButtons(uint8_t inputVariable)
 	// Process input results
 	switch (inputVariable)
 	{
-		case BUTTON_1:
+		case BUTTON_2:				// turn CW
 			processVariable += _ProcessVariableIncrement;
 			break;
 		
-		case BUTTON_2:
+		case BUTTON_1:				// turn CCW
 			processVariable -= _ProcessVariableIncrement;
 			break;
 		
