@@ -1,6 +1,9 @@
 # PE1MEW Arduino Rotor Controller
 A rotor controller for any rotor without direction indication.
 
+![Example of the PE1MEW Rotor Controller](photos/rotorcontrollerfrontview.jpg
+ "Example of the PE1MEW Rotor Controller")
+
 ### Disclaimer
 The PE1MEW Arduino Rotor Controller is distributed in the hope that 
 it will be useful, but WITHOUT ANY WARRANTY; without even the 
