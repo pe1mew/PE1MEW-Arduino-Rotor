@@ -15,29 +15,39 @@
 
  /// \file Sketch.h
  /// \brief PE1MEW Arduino Rotor Controller
- /// \date 20-7-2016
+ /// \date 20-8-2016
  /// \author Remko Welling (PE1MEW)
  /// \version 1.0
+ /// \version 1.1  various small changes, added main documentation for doxygen
+ /// \version 1.2 Modification to overcome Arduino include strategy 
+ 
+ /// \mainpage PE1MEW Arduino Rotor Controller
+ /// 
+ /// This is the PE1MEW Arduino Rotor Controller.
 
-/*Begining of Auto generated code by Atmel studio */
+/*Beginning of Auto generated code by Atmel studio */
 #include <Arduino.h>
 #include <avr/interrupt.h>
 /*End of auto generated code by Atmel studio */
 
-#include "Rotor/pe1mew_rotorcontroller.h"
+#if defined(ARDUINO)          // test for usage of Arduino IDE
+# include "pe1mew_rotorcontroller.h"  // include files when used in Arduino project folder
+#else
+# include "Rotor/pe1mew_rotorcontroller.h"  // include files when in separate folder "Rotor"
+#endif
+
 
 #ifdef __AVR__
-  #include <avr/power.h>
+# include <avr/power.h>
 //Beginning of Auto generated function prototypes by Atmel Studio
 void setup();
 void loop();
 //End of Auto generated function prototypes by Atmel Studio
 #endif
 
-// rotor object
-PE1MEW_RotorController rotorController = PE1MEW_RotorController();
+PE1MEW_RotorController rotorController = PE1MEW_RotorController();  ///< rotor object from PE1MEW_RotorController class type
+volatile bool ticked = false; ///< variable set by timer 1 to indicate that 10mS interval is passed.
 
-volatile bool ticked = false;
 /// \brief functions called at startup to configure hardware
 void setup() 
 {
@@ -52,14 +62,14 @@ void setup()
   Serial.begin(115200); // initialize serial:
   
   
-  /// \brief timer configuartion
-  /// The contorcontroller is running at fixed interuppt intervals.
-  /// The time base is 10 mS beacause the Neopixel need aproximately 2 mS to update the leds.
+  /// \brief timer configuration
+  /// The rotor controller is running using fixed interrupt intervals.
+  /// The time base is 10 mS because the Neopixel need approximately 2 mS to update the leds.
   /// During this update interrupts are disabled to prevent timing delay in the protocol of the 
   /// Neopixel led.
   ///
-  /// In this implemtation registers in the ATMega328 are used.
-  /// In the case of using other mircoprocessors than used in this example it is suggested to use the 
+  /// In this implementation registers in the ATMega328 are used.
+  /// In the case of using other microprocessors than used in this example it is suggested to use the 
   /// interrupt library from Arduino.
   // initialize Timer1
   cli();          // disable global interrupts
@@ -89,7 +99,7 @@ void loop()
   }
 }
 
-/// \brief ISR for systick timer
+/// \brief ISR for sys tick timer
 /// using timer1 overflow
 ISR(TIMER1_COMPA_vect) 
 {
