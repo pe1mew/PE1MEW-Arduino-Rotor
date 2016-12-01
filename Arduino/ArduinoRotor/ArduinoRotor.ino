@@ -19,7 +19,7 @@
  /// \author Remko Welling (PE1MEW)
  /// \version 1.0
  /// \version 1.1  various small changes, added main documentation for doxygen
- /// \version 1.2 Modification to overcome Arduino include strategy 
+ /// \version 1.2  Modification to overcome Arduino include strategy 
  
  /// \mainpage PE1MEW Arduino Rotor Controller
  /// 
