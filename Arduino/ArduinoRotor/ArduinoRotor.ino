@@ -15,27 +15,19 @@
 
  /// \file Sketch.h
  /// \brief PE1MEW Arduino Rotor Controller
- /// \date 20-8-2016
+ /// \date 12-7-2021
  /// \author Remko Welling (PE1MEW)
  /// \version 1.0
  /// \version 1.1  various small changes, added main documentation for doxygen
  /// \version 1.2  Modification to overcome Arduino include strategy 
- 
+ /// \version 1.3  Removed artefacts from experiment.
  /// \mainpage PE1MEW Arduino Rotor Controller
  /// 
  /// This is the PE1MEW Arduino Rotor Controller.
 
-/*Beginning of Auto generated code by Atmel studio */
 #include <Arduino.h>
 #include <avr/interrupt.h>
-/*End of auto generated code by Atmel studio */
-
-#if defined(ARDUINO)          // test for usage of Arduino IDE
-# include "pe1mew_rotorcontroller.h"  // include files when used in Arduino project folder
-#else
-# include "Rotor/pe1mew_rotorcontroller.h"  // include files when in separate folder "Rotor"
-#endif
-
+#include "pe1mew_rotorcontroller.h"  // include files when used in Arduino project folder
 
 #ifdef __AVR__
 # include <avr/power.h>
